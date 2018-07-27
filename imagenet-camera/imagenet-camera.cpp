@@ -29,10 +29,15 @@
 #include <signal.h>
 #include <unistd.h>
 
+#include<sys/types.h>
+#include<sys/stat.h>
+#include<fcntl.h>
+#include<cstdlib>
+
+
 #include "cudaNormalize.h"
 #include "cudaFont.h"
 #include "imageNet.h"
-
 
 #define DEFAULT_CAMERA -1	// -1 for onboard camera, or change to index of /dev/video V4L2 camera (>=0)	
 		
@@ -52,6 +57,7 @@ void sig_handler(int signo)
 
 int main( int argc, char** argv )
 {
+	printf("STart this imagenet!!!");
 	printf("imagenet-camera\n  args (%i):  ", argc);
 
 	for( int i=0; i < argc; i++ )
@@ -139,6 +145,14 @@ int main( int argc, char** argv )
 	
 	while( !signal_recieved )
 	{
+		static int number1 = 0;
+		number1++;
+		
+		if(number1 == 30)
+		{
+			break;
+		}
+		
 		void* imgCPU  = NULL;
 		void* imgCUDA = NULL;
 		
